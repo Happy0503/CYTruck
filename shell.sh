@@ -51,7 +51,7 @@ fi
 #	echo "L'éxéctubale n'était pas présent, tentative de compilation."
 #	cd ./progc
 #	make
-#	if [ $? -ne 0 ] ; then
+#	if [ $? -ne 0 ] ; then #Si le retour de 'make' est différent de 0, exit
 #		echo "Compilation échouée, sortie du programme."
 #		exit 3
 #	fi
