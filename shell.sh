@@ -105,6 +105,8 @@ for i in `seq 2 $#` ; do #Parcours les arguments à partir du 2e
 			;;
 		
 	esac
+	
+	echo "Temps de l'éxecution 1 : $i"
 done
 
 
