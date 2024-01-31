@@ -1,12 +1,26 @@
 #include "headers.h"
 
-idc* initidc(int id){
+char* strincop(char* tempor){ //copy taille definie
+int lenght;
+char* tempod;
+    tempod = malloc(strlen(tempor)+1); 
+    if(tempod == NULL){
+        printf("error 15");
+        exit(1);
+        }
+    strcpy(tempod,tempor);
+return tempod;
+}
+
+idc* initidc(int id,char* name){
     idc* pid = NULL;
+
     pid = malloc(sizeof(idc));
     if(pid == NULL){
         printf("error 12");
         exit(1);
     }
+    pid->city =strincop(name);
     pid->id = id;
     pid->eq = 0;
     pid->ng = NULL;
@@ -137,33 +151,39 @@ idc * equilibrageid(idc * pTree){
 
 void delidc(idc* p){
 	if(p != NULL){
-		delidc(p->ng);
+		free(p->city);
+        delidc(p->ng);
 		delidc(p->nd);
 		free(p);
 	}
 }
 
-idc* addidc(idc* p, int v,int *h,int *conf){
+idc* addidc(idc* p, int id,int *h,int *conf,char* name){
     if(p == NULL){
         // found the place to create new node
         *h = 1;
         *conf = 1;
-        return initidc(v);
+        return initidc(id,name);
     }
-    else if(v < p->id){ 
+    else if(id < p->id){ 
         // look into the left subtree
-        p->ng = addidc(p->ng, v,h, conf);
+        p->ng = addidc(p->ng, id,h, conf,name);
         *h = -*h;
     }
-    else if(v > p->id){
+    else if(id > p->id){
         // look into the right subtree
         //h reste le mm
-        p->nd = addidc(p->nd, v,h, conf);
+        p->nd = addidc(p->nd, id,h, conf,name);
     }
     else{
 		//Nom identique : ajout de la distance de trajet à la personne
         *h = 0;
+        if(strcmp(name,p->city) == 0){
 		*conf = 0;
+        }
+        else{
+        *conf = 1;
+        }
         return p;
     }   
     if(*h != 0){
@@ -179,41 +199,15 @@ idc* addidc(idc* p, int v,int *h,int *conf){
     return p;
 }
 
-idc* iniaddidc(idc* p, int v,int* conf){
+idc* iniaddidc(idc* p, int id,int* conf,char* name){
     idc* tempo = p;
     int a = 0;
-    tempo = addidc(tempo,v,&a,conf);
+    tempo = addidc(tempo,id,&a,conf,name);
 return tempo;}
 
 
-char* strincop(char* tempor){ //copy taille definie
-int lenght;
-char* tempod;
-    tempod = malloc(strlen(tempor)+1); 
-    if(tempod == NULL){
-        printf("error 15");
-        exit(1);
-        }
-    strcpy(tempod,tempor);
-return tempod;
-}
 
-Recup* initrec(){
-    
-    Recup* init = NULL;
-    init = malloc(sizeof(Recup));
-    if(init ==NULL){
-        printf("error 16");
-        exit(1);
-        }
-    init->id =1;
-    init->villed = NULL;
-    init->villef = NULL;
-    init->eta = 300;
-return init;}
-
-
-Ville* initVille(char* nom,int id,int deb){
+Ville* initVille(char* nom,int deb){
     Ville* tempo = NULL;
     tempo = malloc(sizeof(Ville));
     if (tempo == NULL){
@@ -221,13 +215,10 @@ Ville* initVille(char* nom,int id,int deb){
         exit(1);
     }
     int conf =0;
-    tempo->arbc = NULL;
     tempo->countsta = deb;
     tempo->countid = 1;
     tempo->city = strincop(nom);
-    printf("\n %s",tempo->city);
     tempo->equi = 0;
-    tempo->arbc = iniaddidc(tempo->arbc,id,&conf);
     tempo->vd = NULL;
     tempo->vg = NULL;
     tempo->equi = 0;
@@ -237,7 +228,6 @@ return tempo;
 void freenext(Ville* frde){
     if(frde != NULL){
     free(frde->city);
-    delidc(frde->arbc);
     freenext(frde->next);
     free(frde);
     frde = NULL;
@@ -252,7 +242,6 @@ void freer(Ville* frde){
     else{
     freenext(frde->next);    
     free(frde->city);
-    delidc(frde->arbc);
     freer(frde->vd);
     freer(frde->vg);
     free(frde);
@@ -360,7 +349,7 @@ Ville * equilibrage(Ville * pTree){
 
 void displayInfixe(Ville* p){
     if(p != NULL){
-         printf("\n%s ; %d trajet; %d start",p->city,p->countid,p->countsta);
+         printf("%s;%d;%d\n",p->city,p->countid,p->countsta);
         displayInfixe(p->vd);
         //printf("\n%s a été traverse par %d trajet et été départ %d fois",p->city,p->countid,p->countsta);
        
@@ -380,29 +369,28 @@ void displayIdfixe(idc* p){
 
 
 
-Ville * addVil(Ville * p, int id,int *h, char* nameville, int deb){
+Ville * addVil(Ville * p,int *h, char* nameville, int deb,int pres){
     if(p == NULL){
         // found the place to create new node
         *h = 1;
-        return initVille(nameville,id,deb);
+        return initVille(nameville,deb);
     }
     else if(strcmp(nameville,p->city) < 0){ //La 1e var de strcmp est l'ajout, la 2e celle du noeud
         // look into the left subtree
-        p->vg = addVil(p->vg, id,h, nameville,deb);
+        p->vg = addVil(p->vg,h, nameville,deb,pres);
         *h = -*h;
     }
     else if(strcmp(nameville,p->city) > 0){
         // look into the right subtree
         //h reste le mm
-        p->vd = addVil(p->vd, id,h, nameville,deb);
+        p->vd = addVil(p->vd,h, nameville,deb,pres);
     }
     else{
 		//Nom identique : ajout de trajet a la ville
         *h = 0;
-        int cont;
-        //displayIdfixe(p->arbc);
-        p->arbc =iniaddidc(p->arbc,id,&cont);
-		p->countid = p->countid + cont;
+        int cont = 0;
+        //p->arbc =iniaddidc(p->arbc,id,&cont);
+        p->countid = p->countid + pres ;
         p->countsta = p->countsta + deb;
         return p;
     }   
@@ -493,29 +481,32 @@ Ville* cutnext(Ville*p,Ville*rV,int*h){
             return p;
         }
         else if(p == NULL){
-            p = initVille(rV->city,0,0);
-            p->countid = rV->countid;
-            p->countsta = rV->countsta;
+            p = rV;
             *h =*h+1;
-            p->next = cutnext(p->next,rV->next,h);
+            p->vd = rV->next;
+            p->vg = NULL;
+            p->next = NULL;
+            p->next = cutnext(p->next,p->vd,h);
+            p->vd = NULL;
         }
         else{
-            p->next = cutnext(p->next,rV->next,h);
+            p->next = cutnext(p->next,rV,h);
             return p;
         }
-
-    }
+        return p;}
+    else{
+        freenext(rV);
+        rV = NULL;
+    
     return p;
-
-
+    }
 }
 Ville* cutvi(Ville* p,Ville* rV,int* h){
 if(rV != NULL){
     p = cutvi(p,rV->vd,h);
-        if(*h < 10){
+        Ville* d = rV->vg;
         p = cutnext(p,rV,h);
-        }
-    p = cutvi(p,rV->vg,h);
+    p = cutvi(p,d,h);
     }
 return p;
 }
@@ -548,28 +539,30 @@ Ville * main(){ //generation arbre
     Ville * rV = NULL;
     Ville * tris = NULL;
     Ville* cut = NULL;
+    idc* presence = NULL;
     char villtemp1[100]; //recuperation en tempo
     char villetemp2[100];
-    char condtmep[100];
     int idtemp;
     int numtemp;
-    float distemp;
     int h = 0;
-    while(scanf("%d;%d;%[^\n^;];%[^\n^;];%f;%[^\n]\n",&idtemp,&numtemp,villtemp1,villetemp2,&distemp,condtmep) == 6){; // boucle verif argument
-    rV = addVil(rV,idtemp,&h,villetemp2,0);
+    int pres =0;
+    while(scanf("%d;%d;%[^\n^;];%[^\n^;]\n",&idtemp,&numtemp,villtemp1,villetemp2) == 4){; // boucle verif argument
+    presence = iniaddidc(presence,idtemp,&pres,villetemp2);
+    rV = addVil(rV,&h,villetemp2,0,pres);
     h = 0;
     if(numtemp == 1){
-        rV = addVil(rV,idtemp,&h,villtemp1,1);
+        presence = iniaddidc(presence,idtemp,&pres,villtemp1);
+        rV = addVil(rV,&h,villtemp1,1,pres);
         h =0;
-      
 
     }
     }
+
     tris = triinfix(rV,tris,&h);
     cut = cutvi(cut,tris,&h);
-    freer(tris);
     tris = NULL;
-    displaynext(cut);
+    //printf("fdfdf");
+    //displaynext(cut);
     tris = abcV(tris,cut);
     displayInfixe(tris);
  

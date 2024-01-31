@@ -13,6 +13,7 @@ typedef struct _recup{ // struct donnée récuperer
 
 typedef struct _idc{ // arbre id
     int id;
+    char* city;
     struct _idc* ng; 
     struct _idc* nd;
     int eq;
@@ -22,11 +23,27 @@ typedef struct _Ville{ // arbre ville
     char* city;
     int countsta;
     int countid;
-    struct _idc* arbc;
     struct _Ville* vd;
     struct _Ville* vg;
     struct _Ville* next;
     int equi;
 
 }Ville;
+
+typedef struct _statc{ // arbre id
+    int id;
+    float max;
+    float min;
+    float all;
+    float divi;
+    struct _statc* ng; 
+    struct _statc* nd;
+    int eq;
+}Statc;
+
+
+
+
+
+
 #endif

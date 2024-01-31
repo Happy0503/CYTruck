@@ -1,9 +1,13 @@
 
 all : exec-t
 
-tess.o :  fullgc-t.c headers.h
-	gcc -c fullgc-t.c -o tss.o
-	gcc tss.o -o full-t
+full-t.o :  fullgc-t.c headers.h
+	gcc -c fullgc-t.c -o full-t.o
+	gcc full-t.o -o full-t
+
+full-s.o : fullgc-s.c headers.h
+	gcc -c fullgc-s.c -o full-s.o
+	gcc full-s.o -o full-s
 
 idavl.o : idavl.c headers.h
 	gcc -c idavl.c -o idavl.o
