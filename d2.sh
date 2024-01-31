@@ -1,14 +1,9 @@
 #!/bin/bash
 
 
-#Pour ce traitement, vous devez récupérer la distance totale parcourue
-#par chaque conducteur, c’est à dire faire la somme des distances de
-#toutes les étapes qui leurs sont associées. Vous ne garderez que les 10
-#plus grandes distances classées par ordre décroissant.
+#Récupère les 10 conducteurs ayant la plus grande distance parcourue par ordre décroissant.
+time cat ./data/data.csv | sed -e 1d | cut -f5,6 -d';' | ./d2 | sort -n -r | head -10 > ./temp/result_d2.txt
+# DATA.CVS NOM A CHANGER : RECUP ARG 1
 
 
-
-#virer la 1e ligne du data.csv!
-time cat ./data/data.csv | cut -f5,6 -d';' | ./programme_c_d2
-
-
+#time cat ./data/data.csv | sed -e 1d | cut -f5,6 -d';' | ./d2 > ./temp/result_d2.txt
