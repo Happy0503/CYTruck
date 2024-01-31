@@ -5,14 +5,14 @@
 
 
 typedef struct _avl {
-	char* id;
+	int id;
     float value;
     int equilibre;
     struct _avl* pL;
     struct _avl* pR;
 } Avl;
 
-Avl * createAvl(float v, char* identite){
+Avl * createAvl(int id, float v){
     Avl* pNew = malloc(sizeof(Avl));
     if(pNew == NULL){
         exit(1);
@@ -21,7 +21,7 @@ Avl * createAvl(float v, char* identite){
     pNew->equilibre = 0;
     pNew->pL = NULL;
     pNew->pR = NULL;
-	pNew->id = identite;
+	pNew->id = id;
     return pNew;
 } 
 
@@ -142,24 +142,24 @@ Avl * equilibrage(Avl * pTree){
     return pTree;
 }
 
-Avl* addAvl(Avl* p, float v,int *h, char* identite){
+Avl* addAvl(Avl* p, float v,int *h, int id){
     if(p == NULL){
         // found the place to create new node
         *h = 1;
-        return createAvl(v, identite);
+        return createAvl(id, v);
     }
-    else if(strcmp(identite,p->id) < 0){ //La 1e var de strcmp est l'ajout, la 2e celle du noeud
+    else if(p->id > id){
         // look into the left subtree
-        p->pL = addAvl(p->pL, v,h, identite);
+        p->pL = addAvl(p->pL, v,h, id);
         *h = -*h;
     }
-    else if(strcmp(identite,p->id) > 0){
+    else if(p->id < id){
         // look into the right subtree
         //h reste le mm
-        p->pR = addAvl(p->pR, v,h, identite);
+        p->pR = addAvl(p->pR, v,h, id);
     }
     else{
-		//Nom identique : ajout de la distance de trajet à la personne
+		//Route ID identique : ajout de la distance supplémentaire au trajet
         *h = 0;
 		p->value = p->value + v;
         return p;
@@ -180,7 +180,7 @@ Avl* addAvl(Avl* p, float v,int *h, char* identite){
 void displayInfixe(Avl* p){
     if(p != NULL){
         displayInfixe(p->pL);
-        printf("%.3f;%s\n",p->value,p->id);
+        printf("%.3f;%d\n",p->value,p->id);
         displayInfixe(p->pR);
     }
 }
@@ -197,27 +197,19 @@ void delAvl(Avl* p){
 
 int main(){
 
-	Avl* arbreDist = NULL;
+	Avl* trajetsTot = NULL;
+	float distance;
+	int route_id;
 	int h=0;
-	float distance=0.0;
-	
-	char *identite = NULL;
-	char recupScanf[256];
-	
-	int taille = 0;
 
-	while(scanf("%f;%[^\n]\n", &distance, recupScanf) == 2){
+	while( scanf("%d;%f\n", &route_id, &distance) == 2 ){
 		
-		taille = strlen(recupScanf);
-		identite = malloc(sizeof(char)*taille);
-		strcpy(identite, recupScanf);
-		
-		arbreDist = addAvl(arbreDist, distance, &h, identite);
+		trajetsTot = addAvl(trajetsTot, distance, &h, route_id);
 		
 	}
 	
-	displayInfixe(arbreDist);
-	delAvl(arbreDist);
+	displayInfixe(trajetsTot);
+	delAvl(trajetsTot);
 	
 	return 0;
 	
