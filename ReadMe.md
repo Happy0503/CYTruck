@@ -15,4 +15,4 @@ Liste des options :
 	-t,	Génère un histogramme regroupé des 10 villes ayant le plus de trajets, par ordre alphabétique.
 	-s,	Calcule la distance minimale, maximale et moyenne des distances des étapes de chaques trajets, et génère un graphique des 50 premiers trajets. 
 
-Les images générées seront dans un dossier "images" sous format pdf, avec comme nom : result_[Option choisie].pdf.
+Les images générées seront dans un dossier "images" sous format pdf, avec comme nom : image_[Option choisie].png.
