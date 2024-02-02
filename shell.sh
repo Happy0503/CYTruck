@@ -50,6 +50,7 @@ fi
 #if [ ! -f './progc/test' ] || [ ! -x './progc/test' ] ; then
 #	echo "L'éxéctubale n'était pas présent, tentative de compilation."
 #	cd ./progc
+#	make clean
 #	make
 #	if [ $? -ne 0 ] ; then #Si le retour de 'make' est différent de 0, exit
 #		echo "Compilation échouée, sortie du programme."
@@ -69,7 +70,7 @@ for i in `seq 2 $#` ; do #Parcours les arguments à partir du 2e
 			if [ $flag_d1 -eq 0 ] ; then
 				flag_d1=1
 				#echo "D1" #remplacer par l'éxection -d1 dans un autre fichier
-				./d1.sh
+				./d1.sh data
 			fi
 			;;
 		
@@ -77,7 +78,7 @@ for i in `seq 2 $#` ; do #Parcours les arguments à partir du 2e
 			if [ $flag_d2 -eq 0 ] ; then
 				flag_d2=1
 				#echo "D2"
-				./d2.sh
+				./d2.sh data
 			fi
 			;;
 		
@@ -85,7 +86,7 @@ for i in `seq 2 $#` ; do #Parcours les arguments à partir du 2e
 			if [ $flag_l -eq 0 ] ; then
 				flag_l=1
 				#echo "L"
-				./l.sh
+				./l.sh data
 			fi
 			;;
 		
@@ -93,7 +94,7 @@ for i in `seq 2 $#` ; do #Parcours les arguments à partir du 2e
 			if [ $flag_t -eq 0 ] ; then
 				flag_t=1
 				#echo "T"
-				./t.sh
+				./t.sh data
 			fi
 			;;
 		
@@ -101,7 +102,7 @@ for i in `seq 2 $#` ; do #Parcours les arguments à partir du 2e
 			if [ $flag_s -eq 0 ] ; then
 				flag_s=1
 				#echo "S"
-				./s.sh
+				./s.sh data
 			fi
 			;;
 		
