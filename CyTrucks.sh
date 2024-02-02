@@ -48,7 +48,7 @@ fi
 
 #Vérification de la présence des éxecutables C
 #[ ! -f './progc/test' ]
-if [ ! -x './progc/d2' ] || [ ! -x './progc/l' ] [ ! -x './progc/t' ] [ ! -x './progc/s' ] ; then
+if [ ! -x './progc/d2' ] || [ ! -x './progc/l' ] || [ ! -x './progc/t' ] || [ ! -x './progc/s' ] ; then
 	echo "Au moins un éxecutable n'est pas présent, tentative de compilation."
 	cd ./progc
 	make clean
@@ -70,7 +70,6 @@ for i in `seq 2 $#` ; do #Parcours les arguments à partir du 2e
 		'-d1')
 			if [ $flag_d1 -eq 0 ] ; then
 				flag_d1=1
-				#echo "D1" #remplacer par l'éxection -d1 dans un autre fichier
 				./d1.sh data
 			fi
 			;;
@@ -78,7 +77,6 @@ for i in `seq 2 $#` ; do #Parcours les arguments à partir du 2e
 		'-d2')
 			if [ $flag_d2 -eq 0 ] ; then
 				flag_d2=1
-				#echo "D2"
 				./d2.sh data
 			fi
 			;;
@@ -86,7 +84,6 @@ for i in `seq 2 $#` ; do #Parcours les arguments à partir du 2e
 		'-l')
 			if [ $flag_l -eq 0 ] ; then
 				flag_l=1
-				#echo "L"
 				./l.sh data
 			fi
 			;;
@@ -94,7 +91,6 @@ for i in `seq 2 $#` ; do #Parcours les arguments à partir du 2e
 		'-t')
 			if [ $flag_t -eq 0 ] ; then
 				flag_t=1
-				#echo "T"
 				./t.sh data
 			fi
 			;;
@@ -102,28 +98,15 @@ for i in `seq 2 $#` ; do #Parcours les arguments à partir du 2e
 		'-s')
 			if [ $flag_s -eq 0 ] ; then
 				flag_s=1
-				#echo "S"
 				./s.sh data
 			fi
 			;;
 		
 		*) #Default
-			echo default
+			echo "Erreur avec l'argument $i."
 			;;
 		
 	esac
 	
-	echo "Temps de l'éxecution 1 : $i"
+	#echo "Temps de l'éxecution 1 : $i"
 done
-
-
-
-
-
-
-
-
-#$? = Variable ayant le code retour de la dernière commande
-#time cat data.cvs | cut -d';' -f1,6
-#Outil : AWK : permet de passer en argument un bout de code à éxecuter sur les données qui arrivent
-#awk '{tab[$1] += 1} END {for (v in tab) {print v";"tab[v]} }' // Compte le nombre d'itération de $1 et l'affiche
