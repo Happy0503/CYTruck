@@ -70,35 +70,35 @@ for i in `seq 2 $#` ; do #Parcours les arguments à partir du 2e
 		'-d1')
 			if [ $flag_d1 -eq 0 ] ; then
 				flag_d1=1
-				./d1.sh data
+				./d1.sh $data
 			fi
 			;;
 		
 		'-d2')
 			if [ $flag_d2 -eq 0 ] ; then
 				flag_d2=1
-				./d2.sh data
+				./d2.sh $data
 			fi
 			;;
 		
 		'-l')
 			if [ $flag_l -eq 0 ] ; then
 				flag_l=1
-				./l.sh data
+				./l.sh $data
 			fi
 			;;
 		
 		'-t')
 			if [ $flag_t -eq 0 ] ; then
 				flag_t=1
-				./t.sh data
+				./t.sh $data
 			fi
 			;;
 		
 		'-s')
 			if [ $flag_s -eq 0 ] ; then
 				flag_s=1
-				./s.sh data
+				./s.sh $data
 			fi
 			;;
 		
