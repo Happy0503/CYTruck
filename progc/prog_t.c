@@ -240,7 +240,7 @@ void freer(Ville* frde){
     
     }
     else{
-    freenext(frde->next);    
+    //freenext(frde->next);    
     free(frde->city);
     freer(frde->vd);
     freer(frde->vg);
@@ -565,6 +565,8 @@ Ville * main(){ //generation arbre
     //displaynext(cut);
     tris = abcV(tris,cut);
     displayInfixe(tris);
+    freer(tris);
+    
  
 
 
