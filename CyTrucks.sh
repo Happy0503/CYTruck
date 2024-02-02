@@ -47,17 +47,18 @@ fi
 
 
 #Vérification de la présence des éxecutables C
-#if [ ! -f './progc/test' ] || [ ! -x './progc/test' ] ; then
-#	echo "L'éxéctubale n'était pas présent, tentative de compilation."
-#	cd ./progc
-#	make clean
-#	make
-#	if [ $? -ne 0 ] ; then #Si le retour de 'make' est différent de 0, exit
-#		echo "Compilation échouée, sortie du programme."
-#		exit 3
-#	fi
-#	cd ..
-#fi
+#[ ! -f './progc/test' ]
+if [ ! -x './progc/d2' ] || [ ! -x './progc/l' ] [ ! -x './progc/t' ] [ ! -x './progc/s' ] ; then
+	echo "Au moins un éxecutable n'est pas présent, tentative de compilation."
+	cd ./progc
+	make clean
+	make
+	if [ $? -ne 0 ] ; then #Si le retour de 'make' est différent de 0, exit
+		echo "Compilation échouée, sortie du programme."
+		exit 3
+	fi
+	cd ..
+fi
 
 
 #Boucle sur les autres arguments qui va vérifier les commandes demandées. Sinon : exit problème d'arguments
