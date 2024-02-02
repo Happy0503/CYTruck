@@ -11,8 +11,10 @@ Liste des options :
 
 	-d1,	Génère un histogramme horizontal des 10 conducteurs ayant le plus de trajets, par ordre décroissant.
 	-d2,	Génère un histogramme horizontal des 10 conducteurs ayant parcouru le plus de kilomètres, par ordre décroissant.
-	-l,	Génère un histogramme vertical des 10 trajets aux distances les plus longues, par ordre croissant.
+	-l,	Génère un histogramme vertical des 10 trajets aux distances les plus longues, par ordre croissant d'identifiant.
 	-t,	Génère un histogramme regroupé des 10 villes ayant le plus de trajets, par ordre alphabétique.
 	-s,	Calcule la distance minimale, maximale et moyenne des distances des étapes de chaques trajets, et génère un graphique des 50 premiers trajets. 
 
 Les images générées seront dans un dossier "images" sous format pdf, avec comme nom : image_[Option choisie].png.
+
+Vous pouvez vous rendre dans le dossier progc et effectuer "make clean" afin de supprimer les fichiers .o et les exécutables. Le programme recompilera tout seul les programmes C.
